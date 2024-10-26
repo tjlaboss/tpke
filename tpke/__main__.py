@@ -2,8 +2,24 @@
 Travis's Point Kinetics Equations
 """
 import tpke
-
+import numpy as np
 import os
+
+
+def solution(input_dict):
+	method = tpke.matrices.METHODS[input_dict['method']]
+	total = input_dict['time']['total']
+	dt = input_dict['time']['dt']
+	num_steps = int(np.ceil(total / dt)),  # Will raise total if not divisible
+	matA, matB = method(
+		n=num_steps,
+		dt=dt,
+		betas=input_dict['data']['delay_fractions'],
+		lams=input_dict['data']['decay_constants'],
+		L=input_dict['data']['Lambda'],
+		rho_vec=[0]*num_steps #rhos
+	)
+	
 
 
 def main():
