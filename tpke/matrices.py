@@ -5,11 +5,8 @@ Matrix builders for Point Kinetics Equations
 """
 
 import numpy as np
-import numpy.typing as npt
 import typing
-
-_T_arr = npt.NDArray[np.floating]
-
+from tpke.tping import T_arr
 
 
 def __check_inputs(n, rho_vec, betas, lams):
@@ -25,13 +22,13 @@ def __check_inputs(n, rho_vec, betas, lams):
 
 def implicit_euler(
         n: int,
-        rho_vec: _T_arr,
+        rho_vec: T_arr,
         dt: float,
-        betas: _T_arr,
-        lams: _T_arr,
+        betas: T_arr,
+        lams: T_arr,
         L: float,
         P0: float=1,
-) -> typing.Tuple[_T_arr, _T_arr]:
+) -> typing.Tuple[T_arr, T_arr]:
     """Build A and B matrices using Implicit Euler.
     
     Example for 1 delayed group:
@@ -108,13 +105,13 @@ def implicit_euler(
 
 def explicit_euler(
         n: int,
-        rho_vec: _T_arr,
+        rho_vec: T_arr,
         dt: float,
-        betas: _T_arr,
-        lams: _T_arr,
+        betas: T_arr,
+        lams: T_arr,
         L: float,
         P0: float = 1,
-) -> typing.Tuple[_T_arr, _T_arr]:
+) -> typing.Tuple[T_arr, T_arr]:
     """Build A and B matrices using Explicit Euler.
 
     Example for 1 delayed group:

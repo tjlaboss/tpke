@@ -6,7 +6,7 @@ All units are arbitrary.
 """
 import typing
 import numpy as np
-import numpy.typing as npt
+from tpke.tping import T_arr
 
 def step(rho: float, start=0, stop=np.inf) -> typing.Callable:
 	"""Generate a step function
@@ -99,7 +99,7 @@ def get_reactivity_vector(
 		n: int,
 		dt: float,
 		**kwargs: typing.Mapping
-) -> npt.NDArray[float]:
+) -> T_arr:
 	"""Get a 1D array of the reactivity over time.
 	
 	Parameters:
