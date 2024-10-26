@@ -6,7 +6,7 @@ YAML reading and validation.
 
 import typing
 import yamale
-from numpy import sign
+import numpy as np
 from tpke.matrices import METHODS
 
 try:
@@ -66,6 +66,9 @@ def load_input_file(fpath: str) -> typing.Mapping:
 		yamale.validate(yamale_schema, data)
 		ydict = data[0][0]
 	check_input(ydict)
+	# Let's make these arrays for later.
+	ydict['data']['delay_fractions'] = np.array(ydict['data']['delay_fractions'])
+	ydict['data']['decay_constants'] = np.array(ydict['data']['decay_constants'])
 	return ydict
 
 
@@ -76,7 +79,7 @@ def check_input(config: typing.Mapping):
 	if config['time']['total'] < config['time']['dt']:
 		errs.append("Total time is less than timestep size.")
 	rx = config['reactivity']
-	if rx['type'] == "ramp" and sign(rx['rho'] != sign(rx['slope'])):
+	if rx['type'] == "ramp" and np.sign(rx['rho'] != np.sign(rx['slope'])):
 		errs.append("Reactivity inserted and insertion ramp slope have different signs.")
 	# Might add some more checks later.
 	if errs:
