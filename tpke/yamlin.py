@@ -6,6 +6,7 @@ YAML reading and validation.
 
 import typing
 import yamale
+from numpy import sign
 from tpke.matrices import METHODS
 
 try:
@@ -74,6 +75,9 @@ def check_input(config: typing.Mapping):
 		errs.append("Number of delay fractions does not match number of decay constants.")
 	if config['time']['total'] < config['time']['dt']:
 		errs.append("Total time is less than timestep size.")
+	rx = config['reactivity']
+	if rx['type'] == "ramp" and sign(rx['rho'] != sign(rx['slope'])):
+		errs.append("Reactivity inserted and insertion ramp slope have different signs.")
 	# Might add some more checks later.
 	if errs:
 		errstr = f"There were {len(errs)} errors:\n\t"
