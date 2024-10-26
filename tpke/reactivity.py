@@ -120,7 +120,7 @@ def get_reactivity_vector(
 	--------
 	rho_vector: np.ndarray
 	"""
-	times = np.linspace(0, n*dt, n + 1)
+	times = np.linspace(0, n*dt, n)  # n+1?
 	r_type = r_type.lower()
 	if r_type not in FUNCTIONS:
 		raise KeyError(f"Unknown function type: {r_type}. "

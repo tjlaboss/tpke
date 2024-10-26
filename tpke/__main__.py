@@ -10,7 +10,7 @@ def solution(input_dict):
 	method = tpke.matrices.METHODS[input_dict['method']]
 	total = input_dict['time']['total']
 	dt = input_dict['time']['dt']
-	num_steps = int(np.ceil(total / dt)),  # Will raise total if not divisible
+	num_steps = 1 + int(np.floor(total / dt))  # Will raise total if not divisible
 	matA, matB = method(
 		n=num_steps,
 		dt=dt,
