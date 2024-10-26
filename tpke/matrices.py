@@ -34,6 +34,14 @@ def implicit_euler(
 ) -> typing.Tuple[_T_arr, _T_arr]:
     """Build A and B matrices using Implicit Euler.
     
+    Example for 1 delayed group:
+    
+        [-1] P_n  +  [1 - dt*(rho - beta)/L] P_{n+1}  +                    [-dt*lambda_k] C_{k,n+1} = 0
+        [+1] P_0                                                                                    = P0
+                     [-dt*beta_k/Lambda]     P_{n+1}  +  [-1] C_{k,n} + [1 + dt*lambda_k] C_{k,n+1} = 0
+                                                         [+1] C_{k,n}                               = C0_k
+    
+    
     Parameters:
     -----------
     n: int
@@ -73,3 +81,27 @@ def implicit_euler(
     A = np.zeros((size, size))
     B = np.zeros(size)
     C0s = (P0*betas)/(lams*L)  # Initial precursor concentrations
+    for ip in range(n-1):
+        rho1 = rho_vec[ip+1]
+        dtrbl = dt*(rho1 - beff)/L
+        dtl = dt*beff/L
+        # P, normal nodes
+        A[ip, ip] = -1            # P_n
+        A[ip, ip+1] =  1 - dtrbl  # P_{n+1}
+        for k in range(ndg):
+            ic = ip + n*(k+1)
+            A[ip, ic+1] = -dt*lams[k]       # C_{k,n+1}
+            # C, normal nodes
+            A[ic, ip+1] = -dtl              # P_{n+1}
+            A[ic, ic] = -1                  # C_{n,k}
+            A[ic, ic+1] = 1 + dt*lams[k]    # C_{n,k+1}
+    # Boundary Conditions
+    # Initial Condition: P
+    A[n-1, 0] = 1
+    B[n-1] = P0
+    # Initial Condition: C
+    for k in range(ndg):
+        A[n*(k+2)-1, n*(k+1)] = 1
+        B[n*(k+2)-1] = C0s[k]
+    return A, B
+
