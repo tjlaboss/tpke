@@ -187,3 +187,12 @@ def explicit_euler(
         A[n*(k + 2) - 1, n*(k + 1)] = 1
         B[n*(k + 2) - 1] = C0s[k]
     return A, B
+
+
+METHODS = {
+    'implicit euler': implicit_euler,
+    'backward euler': implicit_euler,
+    'explicit euler': explicit_euler,
+    'forward euler':  explicit_euler
+}
+
