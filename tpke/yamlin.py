@@ -28,7 +28,8 @@ def _enum(iterable: typing.Iterable, **kwargs) -> str:
 SCHEMA = f"""\
 time: include('time_type')
 data: include('data_type')
-method: {_enum(METHODS.keys())}
+reactivity: any(include('step_type'), include('ramp_type'), include('sine_type'))
+method: {_enum(METHODS.keys(), ignore_case=True)}
 ---
 time_type:
   total: num(min=0)
@@ -38,6 +39,20 @@ data_type:
   delay_fractions: list(num(min=0))
   decay_constants: list(num(min=0))
   Lambda: num(min=0)
+---
+step_type:
+  type: str(equals="step", ignore_case=True)
+  rho: num()
+---
+ramp_type:
+  type: str(equals="ramp", ignore_case=True)
+  rho: num()
+  slope: num()
+---
+sine_type:
+  type: str(equals="sine", ignore_case=True)
+  rho: num()
+  frequency: num(min=0)
 """
 
 yamale_schema = yamale.make_schema(content=SCHEMA, parser=PARSER)
