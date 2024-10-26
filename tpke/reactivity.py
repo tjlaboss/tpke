@@ -6,6 +6,7 @@ All units are arbitrary.
 """
 import typing
 import numpy as np
+import numpy.typing as npt
 
 def step(rho: float, start=0, stop=np.inf) -> typing.Callable:
 	"""Generate a step function
@@ -84,3 +85,45 @@ def sine(rho: float, frequency: float) -> typing.Callable:
 	def sine_function(t):
 		return rho*np.sin(frequency*t)
 	return sine_function
+
+
+FUNCTIONS = {
+	"step": step,
+	"ramp": ramp,
+	"sine": sine
+}
+
+
+def get_reactivity_vector(
+		r_type: str,
+		n: int,
+		dt: float,
+		**kwargs: typing.Mapping
+) -> npt.NDArray[float]:
+	"""Get a 1D array of the reactivity over time.
+	
+	Parameters:
+	-----------
+	r_type: str
+		'step', 'ramp', or 'sign'
+	
+	n: int
+		Number of steps to generate (not counting 0).
+	
+	dt: float
+		Amount of time between each step.
+	
+	kwargs: dict
+		Keyword arguments for the reactivity function generator.
+	
+	Returns:
+	--------
+	rho_vector: np.ndarray
+	"""
+	times = np.linspace(0, n*dt, n + 1)
+	r_type = r_type.lower()
+	if r_type not in FUNCTIONS:
+		raise KeyError(f"Unknown function type: {r_type}. "
+		               f"Expected one of: {list(FUNCTIONS.keys())}")
+	f = np.vectorize(FUNCTIONS[r_type](**kwargs))
+	return f(times)
