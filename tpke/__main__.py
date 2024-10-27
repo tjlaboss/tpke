@@ -37,7 +37,7 @@ def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 		dt=dt,
 		**rxdict
 	)
-	np.savetxt(os.path.join(output_dir, "reactivities.txt"), reactivity_vals)
+	np.savetxt(os.path.join(output_dir, K.FNAME_RHO), reactivity_vals)
 	print("Reactivity:", reactivity_vals)  # tmp
 	matA, matB = method(
 		n=num_steps,
@@ -54,8 +54,8 @@ def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 		if to_show > 1:
 			plt.show()
 	power_vals, concentration_vals = tpke.solver.linalg(matA, matB, num_steps)
-	np.savetxt(os.path.join(output_dir, "powers.txt"), power_vals)
-	np.savetxt(os.path.join(output_dir, "concentrations.txt"), concentration_vals)
+	np.savetxt(os.path.join(output_dir, K.FNAME_P), power_vals)
+	np.savetxt(os.path.join(output_dir, K.FNAME_C), concentration_vals)
 	# print(np.vstack((power_vals, concentration_vals)))
 	print("Power", power_vals) # tmp
 	prplot = plots.get(K.PLOT_PR)
@@ -86,7 +86,7 @@ def main():
 		print("Input file is valid:", input_file)
 		exit(0)
 	os.makedirs(args.output_dir, exist_ok=True)
-	shutil.copy(input_file, os.path.join(args.output_dir, "config.yml"))
+	shutil.copy(input_file, os.path.join(args.output_dir, K.FNAME_CFG))
 	solution(input_dict, args.output_dir)
 
 
