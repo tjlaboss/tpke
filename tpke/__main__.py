@@ -29,7 +29,7 @@ def solution(input_dict: typing.Mapping):
 		betas=input_dict['data']['delay_fractions'],
 		lams=input_dict['data']['decay_constants'],
 		L=input_dict['data']['Lambda'],
-		rho_vec=reactivity_vals
+		rho_vec=reactivity_vals.copy()
 	)
 	power_vals, concentration_vals = tpke.solver.linalg(matA, matB, num_steps)
 	# print(np.vstack((power_vals, concentration_vals)))

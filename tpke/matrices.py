@@ -82,7 +82,6 @@ def implicit_euler(
     for ip in range(n-1):
         rho1 = rho_vec[ip+1]
         dtrbl = dt*(rho1 - beff)/L
-        dtl = dt*beff/L
         # P, normal nodes
         A[ip, ip] = -1            # P_n
         A[ip, ip+1] =  1 - dtrbl  # P_{n+1}
@@ -90,7 +89,7 @@ def implicit_euler(
             ic = ip + n*(k+1)
             A[ip, ic+1] = -dt*lams[k]       # C_{k,n+1}
             # C, normal nodes
-            A[ic, ip+1] = -dtl              # P_{n+1}
+            A[ic, ip+1] = -dt*betas[k]/L    # P_{n+1}
             A[ic, ic] = -1                  # C_{n,k}
             A[ic, ic+1] = 1 + dt*lams[k]    # C_{n,k+1}
     # Boundary Conditions
@@ -166,7 +165,6 @@ def explicit_euler(
     for ip in range(n - 1):
         rho0 = rho_vec[ip]
         dtrbl = dt*(rho0 - beff)/L
-        dtl = dt*beff/L
         # P, normal nodes
         A[ip, ip] = -1 - dtrbl  # P_n
         A[ip, ip + 1] = 1       # P_{n+1}
@@ -174,7 +172,7 @@ def explicit_euler(
             ic = ip + n*(k + 1)
             A[ip, ic] = -dt*lams[k]         # C_{k,n}
             # C, normal nodes
-            A[ic, ip + 1] = -dtl            # P_{n+1}
+            A[ic, ip + 1] = -dt*betas[k]/L  # P_{n+1}
             A[ic, ic] = -1 + dt*lams[k]     # C_{k,n}
             A[ic, ic + 1] = 1               # next C
     # Boundary Conditions
