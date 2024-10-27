@@ -167,22 +167,22 @@ def explicit_euler(
         dtrbl = dt*(rho0 - beff)/L
         # P, normal nodes
         A[ip, ip] = -1 - dtrbl  # P_n
-        A[ip, ip + 1] = 1       # P_{n+1}
+        A[ip, ip+1] = 1         # P_{n+1}
         for k in range(ndg):
             ic = ip + n*(k + 1)
-            A[ip, ic] = -dt*lams[k]         # C_{k,n}
+            A[ip, ic] = -dt*lams[k]     # C_{k,n}
             # C, normal nodes
-            A[ic, ip + 1] = -dt*betas[k]/L  # P_{n+1}
-            A[ic, ic] = -1 + dt*lams[k]     # C_{k,n}
-            A[ic, ic + 1] = 1               # next C
+            A[ic, ip] = -dt*betas[k]/L  # P_{n}
+            A[ic, ic] = -1 + dt*lams[k] # C_{k,n}
+            A[ic, ic+1] = 1             # next C
     # Boundary Conditions
     # Initial Condition: P
-    A[n - 1, 0] = 1
-    B[n - 1] = P0
+    A[n-1, 0] = 1
+    B[n-1] = P0
     # Initial Condition: C
     for k in range(ndg):
-        A[n*(k + 2) - 1, n*(k + 1)] = 1
-        B[n*(k + 2) - 1] = C0s[k]
+        A[n*(k+2)-1, n*(k+1)] = 1
+        B[n*(k+2)-1] = C0s[k]
     return A, B
 
 
