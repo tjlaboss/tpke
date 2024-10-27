@@ -1,0 +1,27 @@
+# Implicit (Backward) Euler, 50 cent power ramp
+
+time:
+  total: 0.5  # s
+  dt: 5.0e-3  # s
+
+data:
+  # Six delayed groups condensed down to two
+  #                     1       2
+  delay_fractions: [ 291.3,  358.9]  # pcm
+  decay_constants: [0.0386, 0.3868]  # s^-1
+  Lambda: 2.0e-5  # s
+
+
+reactivity:
+  type: ramp
+  rho: 0.5  # $
+  slope: 2.0  # will reach peak in 1/4 second
+
+
+method: "implicit euler"
+
+
+plots:
+  show: 1  # 0=no, 1=at end, 2=immediately
+  spy: 0   # 0=no, 1=yes
+  power_reactivity: 1 #  0=no, 1=yes
