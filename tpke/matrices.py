@@ -74,7 +74,7 @@ def implicit_euler(
     __check_inputs(n, rho_vec, betas, lams)
     ndg = len(betas)    # number of delayed groups
     beff = sum(betas)   # beta effective
-    rho_vec /= beff     # convert from $
+    rho_vec *= beff     # convert from $
     size = (1 + ndg)*n
     A = np.zeros((size, size))
     B = np.zeros(size)
@@ -157,7 +157,7 @@ def explicit_euler(
     __check_inputs(n, rho_vec, betas, lams)
     ndg = len(betas)    # number of delayed groups
     beff = sum(betas)   # beta effective
-    rho_vec /= beff     # convert from $
+    rho_vec *= beff     # convert from $
     size = (1 + ndg)*n
     A = np.zeros((size, size))
     B = np.zeros(size)
