@@ -68,10 +68,9 @@ yamale_schema = yamale.make_schema(content=SCHEMA, parser=PARSER)
 
 def load_input_file(fpath: PathType) -> typing.Mapping:
 	"""Load and check a YAML input file using the best available data."""
-	with open(fpath, 'r') as fy:
-		data = yamale.make_data(fpath, parser=PARSER)
-		yamale.validate(yamale_schema, data)
-		ydict = data[0][0]
+	data = yamale.make_data(fpath, parser=PARSER)
+	yamale.validate(yamale_schema, data)
+	ydict = data[0][0]
 	check_input(ydict)
 	# Let's make these arrays for later.
 	ydict['data']['delay_fractions'] = np.array(ydict['data']['delay_fractions'])*1e-5
