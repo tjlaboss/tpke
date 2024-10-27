@@ -87,6 +87,8 @@ def main():
 		# If not, we would have errored out above.
 		print("Input file is valid:", input_file)
 		exit(0)
+	if args.no_plot:
+		input_dict[K.PLOT] = {}
 	os.makedirs(args.output_dir, exist_ok=True)
 	shutil.copy(input_file, os.path.join(args.output_dir, K.FNAME_CFG))
 	solution(input_dict, args.output_dir)

@@ -39,6 +39,8 @@ def get_arguments(args=None) -> argparse.Namespace:
 	                help="Results output directory (default: active directory).")
 	ap.add_argument('-p', '--plot_folder', action=PlotOnlyAction, default=False,
 	                help="Plot results of a previous solution.")
+	ap.add_argument('-np', '--no-plot', action="store_true", default=False,
+	                help="Disable plotting and solve only, regardless of input file.")
 	ap.add_argument('-y', '--yaml-validate', action="store_true", default=False,
 	                help="Validate the YAML input file and exit.")
 	ap.add_argument('-s', '--dump-schema', action=SchemaDumpAction,

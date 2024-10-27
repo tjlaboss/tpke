@@ -67,7 +67,7 @@ sine_type:
 yamale_schema = yamale.make_schema(content=SCHEMA, parser=PARSER)
 
 
-def load_input_file(fpath: PathType) -> typing.Mapping:
+def load_input_file(fpath: PathType) -> typing.MutableMapping:
 	"""Load and check a YAML input file using the best available data.
 	
 	This function also does some type enforcement.
