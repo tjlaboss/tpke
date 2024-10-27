@@ -35,4 +35,8 @@ DATA_B = "delay_fractions"
 DATA_L = "decay_constants"
 DATA_BIG_L = "Lambda"
 
+# Plot names
+EXT = ".pdf"  # consider making this user-configurable
+FNAME_SPY = "spy" + EXT
+FNAME_PR = "power_reactivity" + EXT
 

@@ -88,4 +88,5 @@ def plot_matrices(matA):
 	axA = plt.figure().add_subplot()
 	axA.spy(matA)
 	# axA.set_title(r"$\overline{\overline{A}}$")
+	plt.tight_layout()
 	return axA
