@@ -75,6 +75,7 @@ def load_input_file(fpath: str) -> typing.Mapping:
 	# Let's make these arrays for later.
 	ydict['data']['delay_fractions'] = np.array(ydict['data']['delay_fractions'])
 	ydict['data']['decay_constants'] = np.array(ydict['data']['decay_constants'])
+	ydict['reactivity']['rho'] = float(ydict['reactivity']['rho'])
 	return ydict
 
 
