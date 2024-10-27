@@ -5,6 +5,7 @@ import typing
 import tpke
 import tpke.keys as K
 import os
+import sys
 import shutil
 import numpy as np
 import matplotlib.pyplot as plt
@@ -81,18 +82,40 @@ def plot_only(output_dir: tpke.tping.PathType):
 	errs = []
 	# Spy plot of Matrix A
 	afpath = os.path.join(output_dir, K.FNAME_MATRIX_A)
-	if os.path.exists(afpath):
+	if not os.path.exists(afpath):
+		errs.append(f"Matrix A could not be found at: {afpath}")
+	else:
 		try:
 			matA = np.loadtxt(afpath)
 			tpke.plotter.plot_matrix(matA)
 		except Exception as e:
-			errs.append(f"Failed to plot Matrix A: {e}")
+			errs.append(f"Failed to plot Matrix A: {type(e)}: {e}")
 		else:
 			plt.savefig(K.FNAME_SPY)
+	# Power-Reactivity plot
+	rfpath = os.path.join(output_dir, K.FNAME_RHO)
+	pfpath = os.path.join(output_dir, K.FNAME_P)
+	if not os.path.exists(rfpath):
+		errs.append(f"Reactivities could not be found at: {rfpath}")
+	elif not os.path.exists(pfpath):
+		errs.append(f"Reactor powers could not be found at: {pfpath}")
 	else:
-		errs.append(f"Matrix A could not be found at: {afpath}")
-	
-		
+		try:
+			reactivities = np.loadtxt(rfpath)
+			powers = np.loadtxt(pfpath)
+			# and plot...
+		except Exception as e:
+			errs.append(f"Failed to plot power and reactivity: {type(e)}: {e}")
+		else:
+			pass
+			#plt.savefig()
+	if errs:
+		le = len(errs)
+		errstr = f"There were {le} errors:\n\t"
+		errstr += "\n\t".join(errs)
+		print(errs, sys.stderr)
+		exit(le)
+	exit(0)
 
 
 def main():
