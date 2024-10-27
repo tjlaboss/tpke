@@ -16,8 +16,6 @@ COLOR_P = "forestgreen"
 COLOR_R = "firebrick"
 
 
-def show():
-	return plt.show()
 
 
 def plot_reactivity_and_power(

@@ -6,6 +6,7 @@ import tpke
 import os
 import shutil
 import numpy as np
+import matplotlib.pyplot as plt
 import warnings
 
 np.set_printoptions(legacy='1.25', linewidth=np.inf)
@@ -39,7 +40,7 @@ def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 	if plots.get('spy'):
 		tpke.plotter.plot_matrices(matA)
 		if to_show > 1:
-			tpke.plotter.show()
+			plt.show()
 	power_vals, concentration_vals = tpke.solver.linalg(matA, matB, num_steps)
 	np.savetxt(os.path.join(output_dir, "powers.txt"), power_vals)
 	np.savetxt(os.path.join(output_dir, "concentrations.txt"), concentration_vals)
@@ -53,11 +54,11 @@ def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 		# Plot them separately
 		warnings.warn("Not implemented yet: separate power and reactivity plots", FutureWarning)
 	if to_show > 1:
-		tpke.plotter.show()
+		plt.show()
 	
 	# keep at end
 	if to_show:
-		tpke.plotter.show()
+		plt.show()
 		
 
 
