@@ -77,7 +77,7 @@ def plot_reactivity_and_power(
 	plt.tight_layout()
 
 
-def plot_matrices(matA):
+def plot_matrix(matA):
 	"""Spy plot of the generated matrix
 	
 	Parameters:
@@ -88,4 +88,5 @@ def plot_matrices(matA):
 	axA = plt.figure().add_subplot()
 	axA.spy(matA)
 	# axA.set_title(r"$\overline{\overline{A}}$")
+	plt.tight_layout()
 	return axA

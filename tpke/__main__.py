@@ -1,77 +1,14 @@
 """
 Travis's Point Kinetics Equations
 """
-import typing
 import tpke
+import tpke.keys as K
 import os
 import shutil
 import numpy as np
-import matplotlib.pyplot as plt
-import warnings
+import time
 
 np.set_printoptions(legacy='1.25', linewidth=np.inf)
-
-
-def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
-	"""
-	
-	This function should be replaced with a "solve" step and a "plot" step.
-	
-	In the "solve" step, the user will provide the input file and ouput directory,
-		and then TPKE will find the solution.
-	In the "plot" step, the user will provide the output directory,
-		and then TPKE will read it and plot the results.
-	 
-	"""
-	plots = input_dict.get('plots', {})
-	method = tpke.matrices.METHODS[input_dict['method']]
-	total = input_dict['time']['total']
-	dt = input_dict['time']['dt']
-	num_steps = 1 + int(np.floor(total / dt))  # Will raise total if not divisible
-	rxdict = dict(input_dict['reactivity'])
-	rxtype = rxdict.pop("type")
-	reactivity_vals = tpke.reactivity.get_reactivity_vector(
-		r_type=rxtype,
-		n=num_steps,
-		dt=dt,
-		**rxdict
-	)
-	np.savetxt(os.path.join(output_dir, "reactivities.txt"), reactivity_vals)
-	print("Reactivity:", reactivity_vals)  # tmp
-	matA, matB = method(
-		n=num_steps,
-		dt=dt,
-		betas=input_dict['data']['delay_fractions'],
-		lams=input_dict['data']['decay_constants'],
-		L=input_dict['data']['Lambda'],
-		rho_vec=reactivity_vals.copy()
-	)
-	to_show = plots.get('show', 0)
-	if plots.get('spy'):
-		tpke.plotter.plot_matrices(matA)
-		plt.savefig(os.path.join(output_dir, "spy.pdf"))
-		if to_show > 1:
-			plt.show()
-	power_vals, concentration_vals = tpke.solver.linalg(matA, matB, num_steps)
-	np.savetxt(os.path.join(output_dir, "powers.txt"), power_vals)
-	np.savetxt(os.path.join(output_dir, "concentrations.txt"), concentration_vals)
-	# print(np.vstack((power_vals, concentration_vals)))
-	print("Power", power_vals) # tmp
-	prplot = plots.get('power_reactivity')
-	times = np.linspace(0, num_steps*dt, num_steps)
-	if prplot == 1:
-		tpke.plotter.plot_reactivity_and_power(times, reactivity_vals, power_vals)
-		plt.savefig(os.path.join(output_dir, "power_reactivity.pdf"))
-	elif prplot == 2:
-		# Plot them separately
-		warnings.warn("Not implemented yet: separate power and reactivity plots", FutureWarning)
-	if to_show > 1:
-		plt.show()
-	
-	# keep at end
-	if to_show:
-		plt.show()
-		
 
 
 def main():
@@ -84,9 +21,17 @@ def main():
 		# If not, we would have errored out above.
 		print("Input file is valid:", input_file)
 		exit(0)
+	print(tpke.arguments.LOGO)
+	if args.no_plot:
+		# Delete input file plotting options.
+		input_dict[K.PLOT] = {}
 	os.makedirs(args.output_dir, exist_ok=True)
-	shutil.copy(input_file, os.path.join(args.output_dir, "config.yml"))
-	solution(input_dict, args.output_dir)
+	shutil.copy(input_file, os.path.join(args.output_dir, K.FNAME_CFG))
+	tick = time.time()
+	print("Solving...")
+	tpke.modes.solution(input_dict, args.output_dir)
+	tock = time.time()
+	print(f"...Completed in {tock - tick:.2f} seconds. Outputs saved to: {args.output_dir}.")
 
 
 if __name__ == "__main__":

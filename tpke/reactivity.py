@@ -6,6 +6,7 @@ All units are arbitrary.
 """
 import typing
 import numpy as np
+import tpke.keys as K
 from tpke.tping import T_arr
 
 def step(rho: float, start=0, stop=np.inf) -> typing.Callable:
@@ -88,9 +89,9 @@ def sine(rho: float, frequency: float) -> typing.Callable:
 
 
 FUNCTIONS = {
-	"step": step,
-	"ramp": ramp,
-	"sine": sine
+	K.STEP: step,
+	K.RAMP: ramp,
+	K.SINE: sine
 }
 
 

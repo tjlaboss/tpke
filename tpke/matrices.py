@@ -6,6 +6,7 @@ Matrix builders for Point Kinetics Equations
 
 import numpy as np
 import typing
+from tpke import keys
 from tpke.tping import T_arr
 
 
@@ -187,9 +188,8 @@ def explicit_euler(
 
 
 METHODS = {
-    'implicit euler': implicit_euler,
-    'backward euler': implicit_euler,
-    'explicit euler': explicit_euler,
-    'forward euler':  explicit_euler
+	key: implicit_euler for key in keys.IMPLICIT_NAMES
+} | {
+	key: explicit_euler for key in keys.EXPLICIT_NAMES
 }
 
