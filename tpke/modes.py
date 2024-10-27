@@ -14,7 +14,19 @@ import tpke.keys as K
 
 
 def plot_only(output_dir: tpke.tping.PathType):
-	"""Only plot the existing results"""
+	"""Only plot the existing results
+	
+	Parameters:
+	-----------
+	output_dir: str or PathLike
+		Output folder to read existing results from.
+	
+	Returns:
+	--------
+	le: int
+		Error status.
+		le == 0 is OK, le != 0 indicates errors.
+	"""
 	errs = []
 	# Spy plot of Matrix A
 	afpath = os.path.join(output_dir, K.FNAME_MATRIX_A)
@@ -61,15 +73,20 @@ def plot_only(output_dir: tpke.tping.PathType):
 
 
 def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
-	"""
-
-	This function should be replaced with a "solve" step and a "plot" step.
-
-	In the "solve" step, the user will provide the input file and ouput directory,
-		and then TPKE will find the solution.
-	In the "plot" step, the user will provide the output directory,
-		and then TPKE will read it and plot the results.
-
+	"""Solve the Point Kinetics Reactor Equations
+	
+	Numerically solve the PKRE, write the data to the output directory,
+	make the indicated plots, and save plots to the output directory.
+	
+	Parameters:
+	-----------
+	input_dict: dict
+		Dictionary of the the parsed input file.
+	
+	output_dir: str or PathLike
+		Output folder to write results to.
+		If it does not exist, it will be created.
+	
 	"""
 	plots = input_dict.get(K.PLOT, {})
 	method = tpke.matrices.METHODS[input_dict[K.METH]]
@@ -106,7 +123,6 @@ def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 	power_vals, concentration_vals = tpke.solver.linalg(matA, matB, num_steps)
 	np.savetxt(os.path.join(output_dir, K.FNAME_P), power_vals)
 	np.savetxt(os.path.join(output_dir, K.FNAME_C), concentration_vals)
-	print("Power", power_vals)  # tmp
 	prplot = plots.get(K.PLOT_PR)
 	if prplot == 1:
 		tpke.plotter.plot_reactivity_and_power(times, reactivity_vals, power_vals)
