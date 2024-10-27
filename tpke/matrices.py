@@ -45,7 +45,7 @@ def implicit_euler(
         Number of timesteps
     
     rho_vec: np.ndarray(float)
-        Array of reactivities at each timestep.
+        Array of reactivities at each timestep ($).
     
     dt: float
         Timestep size (s).
@@ -74,6 +74,7 @@ def implicit_euler(
     __check_inputs(n, rho_vec, betas, lams)
     ndg = len(betas)    # number of delayed groups
     beff = sum(betas)   # beta effective
+    rho_vec /= beff     # convert from $
     size = (1 + ndg)*n
     A = np.zeros((size, size))
     B = np.zeros(size)
@@ -128,7 +129,7 @@ def explicit_euler(
         Number of timesteps
 
     rho_vec: np.ndarray(float)
-        Array of reactivities at each timestep.
+        Array of reactivities at each timestep ($).
 
     dt: float
         Timestep size (s).
@@ -155,8 +156,9 @@ def explicit_euler(
         Vector [Nx1] array, for RHS of matrix solution.
     """
     __check_inputs(n, rho_vec, betas, lams)
-    ndg = len(betas)  # number of delayed groups
-    beff = sum(betas)  # beta effective
+    ndg = len(betas)    # number of delayed groups
+    beff = sum(betas)   # beta effective
+    rho_vec /= beff     # convert from $
     size = (1 + ndg)*n
     A = np.zeros((size, size))
     B = np.zeros(size)
