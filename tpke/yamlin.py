@@ -104,3 +104,20 @@ def _ruamel_load_input_file(stream: typing.TextIO) -> typing.Mapping:
 def _pyyaml_load_input_file(stream: typing.TextIO) -> typing.Mapping:
 	return yaml.safe_load(stream)
 
+
+def _ruamel_dump_input_file(data: typing.Mapping, stream: typing.TextIO):
+	y = yaml.YAML(typ="safe")
+	y.dump(data, stream)
+
+
+def _pyyaml_dump_input_file(data: typing.Mapping, stream: typing.TextIO):
+	return yaml.safe_dump(data, stream)
+
+
+def dump(fpath: PathType, data: typing.Mapping):
+	with open(fpath, 'w') as fy:
+		if PARSER == "ruamel":
+			_ruamel_dump_input_file(data, fy)
+		else:
+			_pyyaml_dump_input_file(data, fy)
+
