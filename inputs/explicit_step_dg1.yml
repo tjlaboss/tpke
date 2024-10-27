@@ -1,0 +1,27 @@
+# Explicit (Forward) Euler, 50 pcm control rod withdrawal.
+
+time:
+  total: 0.1  # s
+  dt: 1.0e-3  # s
+
+data:
+  #                  1
+  delay_fractions: [750]  # pcm
+  decay_constants: [ 10]  # s^-1
+  Lambda: 2.0e-5  # s
+
+reactivity:
+  type: step
+# rho: 0.0  # null transient
+  rho: +0.066667  # $ = (+50.0 pcm / 750 pcm)
+# rho: -0.066667  # $ = (-50.0 pcm / 750 pcm)
+
+
+method: "explicit euler"
+
+
+plots:
+  power_reactivity: 1
+  show: 1  # 0=no, 1=at end, 2=immediately
+  spy: 1
+
