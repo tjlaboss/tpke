@@ -77,7 +77,7 @@ def plot_reactivity_and_power(
 	plt.tight_layout()
 
 
-def plot_matrices(matA):
+def plot_matrix(matA):
 	"""Spy plot of the generated matrix
 	
 	Parameters:

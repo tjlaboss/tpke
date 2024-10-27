@@ -51,7 +51,7 @@ def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 	np.savetxt(os.path.join(output_dir, K.FNAME_MATRIX_B), matB)
 	to_show = plots.get(K.PLOT_SHOW, 0)
 	if plots.get(K.PLOT_SPY):
-		tpke.plotter.plot_matrices(matA)
+		tpke.plotter.plot_matrix(matA)
 		plt.savefig(os.path.join(output_dir, K.FNAME_SPY))
 		if to_show > 1:
 			plt.show()
@@ -74,6 +74,24 @@ def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 	# keep at end
 	if to_show:
 		plt.show()
+
+
+def plot_only(output_dir: tpke.tping.PathType):
+	"""Only plot the existing results"""
+	errs = []
+	# Spy plot of Matrix A
+	afpath = os.path.join(output_dir, K.FNAME_MATRIX_A)
+	if os.path.exists(afpath):
+		try:
+			matA = np.loadtxt(afpath)
+			tpke.plotter.plot_matrix(matA)
+		except Exception as e:
+			errs.append(f"Failed to plot Matrix A: {e}")
+		else:
+			plt.savefig(K.FNAME_SPY)
+	else:
+		errs.append(f"Matrix A could not be found at: {afpath}")
+	
 		
 
 
