@@ -13,6 +13,16 @@ np.set_printoptions(legacy='1.25', linewidth=np.inf)
 
 
 def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
+	"""
+	
+	This function should be replaced with a "solve" step and a "plot" step.
+	
+	In the "solve" step, the user will provide the input file and ouput directory,
+		and then TPKE will find the solution.
+	In the "plot" step, the user will provide the output directory,
+		and then TPKE will read it and plot the results.
+	 
+	"""
 	plots = input_dict.get('plots', {})
 	method = tpke.matrices.METHODS[input_dict['method']]
 	total = input_dict['time']['total']

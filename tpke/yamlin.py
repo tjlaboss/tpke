@@ -24,7 +24,7 @@ def _enum(iterable: typing.Iterable, **kwargs) -> str:
 	for k, v in kwargs.items():
 		string += f', {k}={v}'
 	string += ')'
-	return  string
+	return string
 
 
 SCHEMA = f"""\
@@ -67,7 +67,21 @@ yamale_schema = yamale.make_schema(content=SCHEMA, parser=PARSER)
 
 
 def load_input_file(fpath: PathType) -> typing.Mapping:
-	"""Load and check a YAML input file using the best available data."""
+	"""Load and check a YAML input file using the best available data.
+	
+	This function also does some type enforcement.
+	This isn't where I want to do that. Move eventually...
+	
+	Parameters:
+	-----------
+	fpath: str or PathLike
+		Path to the input YAML file to read
+	
+	Returns:
+	--------
+	ydict: dict
+		Dictionary of the input parameters.
+	"""
 	data = yamale.make_data(fpath, parser=PARSER)
 	yamale.validate(yamale_schema, data)
 	ydict = data[0][0]
@@ -80,6 +94,7 @@ def load_input_file(fpath: PathType) -> typing.Mapping:
 
 
 def check_input(config: typing.Mapping):
+	"""Check the input dictionary and raise an error if appropriate"""
 	errs = []
 	if len(config['data']['delay_fractions']) != len(config['data']['decay_constants']):
 		errs.append("Number of delay fractions does not match number of decay constants.")
@@ -106,7 +121,7 @@ def _pyyaml_load_input_file(stream: typing.TextIO) -> typing.Mapping:
 
 def _ruamel_dump_input_file(data: typing.Mapping, stream: typing.TextIO):
 	y = yaml.YAML(typ="safe")
-	y.dump(data, stream)
+	return y.dump(data, stream)
 
 
 def _pyyaml_dump_input_file(data: typing.Mapping, stream: typing.TextIO):
@@ -114,9 +129,19 @@ def _pyyaml_dump_input_file(data: typing.Mapping, stream: typing.TextIO):
 
 
 def dump(fpath: PathType, data: typing.Mapping):
+	"""Dump a dictionary to a file.
+	
+	Parameters:
+	-----------
+	fpath: str or PathLike
+		File to dump the YAML to.
+	
+	data: dict
+		Dictionary of data to dump.
+	"""
 	with open(fpath, 'w') as fy:
 		if PARSER == "ruamel":
-			_ruamel_dump_input_file(data, fy)
+			return _ruamel_dump_input_file(data, fy)
 		else:
-			_pyyaml_dump_input_file(data, fy)
+			return _pyyaml_dump_input_file(data, fy)
 

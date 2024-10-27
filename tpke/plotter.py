@@ -78,7 +78,13 @@ def plot_reactivity_and_power(
 
 
 def plot_matrices(matA):
-	"""Spy plots of the generated matrix"""
+	"""Spy plot of the generated matrix
+	
+	Parameters:
+	-----------
+	matA: np.ndarray
+		Square matrix, LHS of the equation, to plot.
+	"""
 	axA = plt.figure().add_subplot()
 	axA.spy(matA)
 	# axA.set_title(r"$\overline{\overline{A}}$")
