@@ -9,6 +9,11 @@ import typing
 
 V_float = typing.Collection[float]
 
+
+def show():
+	return plt.show()
+
+
 def plot_power_and_reactivity(
 		times: V_float,
 		reacts: V_float,
@@ -41,3 +46,10 @@ def plot_power_and_reactivity(
 		power_units = "Relative"
 	# continue...
 
+
+def plot_matrices(matA):
+	"""Spy plots of the generated matrix"""
+	axA = plt.figure().add_subplot()
+	axA.spy(matA)
+	axA.set_title(r"$\overline{\overline{A}}$")
+	return axA
