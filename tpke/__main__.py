@@ -10,7 +10,7 @@ import warnings
 np.set_printoptions(legacy='1.25', linewidth=np.inf)
 
 
-def solution(input_dict: typing.Mapping):
+def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 	plots = input_dict.get('plots', {})
 	method = tpke.matrices.METHODS[input_dict['method']]
 	total = input_dict['time']['total']

@@ -8,6 +8,7 @@ import typing
 import yamale
 import numpy as np
 from tpke.matrices import METHODS
+from tpke.tping import PathType
 
 try:
 	from ruamel import yaml
@@ -65,7 +66,7 @@ sine_type:
 yamale_schema = yamale.make_schema(content=SCHEMA, parser=PARSER)
 
 
-def load_input_file(fpath: str) -> typing.Mapping:
+def load_input_file(fpath: PathType) -> typing.Mapping:
 	"""Load and check a YAML input file using the best available data."""
 	with open(fpath, 'r') as fy:
 		data = yamale.make_data(fpath, parser=PARSER)
