@@ -4,6 +4,7 @@ _simplefilter("ignore", UserWarning)
 __author__ = "Travis J. Labossiere-Hickman"
 __email__ = "travisl2@illinois.edu"
 
+import tpke.keys
 import tpke.arguments
 import tpke.matrices
 import tpke.reactivity

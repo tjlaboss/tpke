@@ -3,6 +3,7 @@ Travis's Point Kinetics Equations
 """
 import typing
 import tpke
+import tpke.keys as K
 import os
 import shutil
 import numpy as np
@@ -23,13 +24,13 @@ def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 		and then TPKE will read it and plot the results.
 	 
 	"""
-	plots = input_dict.get('plots', {})
-	method = tpke.matrices.METHODS[input_dict['method']]
-	total = input_dict['time']['total']
-	dt = input_dict['time']['dt']
+	plots = input_dict.get(K.PLOT, {})
+	method = tpke.matrices.METHODS[input_dict[K.METH]]
+	total = input_dict[K.TIME][K.TIME_TOTAL]
+	dt = input_dict[K.TIME][K.TIME_DELTA]
 	num_steps = 1 + int(np.floor(total / dt))  # Will raise total if not divisible
-	rxdict = dict(input_dict['reactivity'])
-	rxtype = rxdict.pop("type")
+	rxdict = dict(input_dict[K.REAC])
+	rxtype = rxdict.pop(K.REAC_TYPE)
 	reactivity_vals = tpke.reactivity.get_reactivity_vector(
 		r_type=rxtype,
 		n=num_steps,
@@ -41,13 +42,13 @@ def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 	matA, matB = method(
 		n=num_steps,
 		dt=dt,
-		betas=input_dict['data']['delay_fractions'],
-		lams=input_dict['data']['decay_constants'],
-		L=input_dict['data']['Lambda'],
+		betas=input_dict[K.DATA][K.DATA_B],
+		lams=input_dict[K.DATA][K.DATA_L],
+		L=input_dict[K.DATA][K.DATA_BIG_L],
 		rho_vec=reactivity_vals.copy()
 	)
-	to_show = plots.get('show', 0)
-	if plots.get('spy'):
+	to_show = plots.get(K.PLOT_SHOW, 0)
+	if plots.get(K.PLOT_SPY):
 		tpke.plotter.plot_matrices(matA)
 		plt.savefig(os.path.join(output_dir, "spy.pdf"))
 		if to_show > 1:
