@@ -45,4 +45,5 @@ FNAME_CFG = "config.yml"
 FNAME_RHO = "reactivities.txt"
 FNAME_P = "powers.txt"
 FNAME_C = "concentrations.txt"
-
+FNAME_MATRIX_A = "A.txt"
+FNAME_MATRIX_B = "B.txt"

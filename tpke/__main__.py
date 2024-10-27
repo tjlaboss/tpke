@@ -47,6 +47,8 @@ def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 		L=input_dict[K.DATA][K.DATA_BIG_L],
 		rho_vec=reactivity_vals.copy()
 	)
+	np.savetxt(os.path.join(output_dir, K.FNAME_MATRIX_A), matA)
+	np.savetxt(os.path.join(output_dir, K.FNAME_MATRIX_B), matB)
 	to_show = plots.get(K.PLOT_SHOW, 0)
 	if plots.get(K.PLOT_SPY):
 		tpke.plotter.plot_matrices(matA)
