@@ -1,0 +1,26 @@
+# Implicit (Backward) Euler, 25 cent control rod oscillation (62.8 rad/s).
+
+time:
+  total: 0.2  # s
+  dt: 1.0e-3  # s
+
+data:
+  #                     1       2      3      4     5     6
+  delay_fractions: [  21.5,  142.4, 127.4, 256.8, 74.8, 27.3]  # pcm
+  decay_constants: [0.0124, 0.0305, 0.111, 0.301, 1.14, 3.01]  # s^-1
+  Lambda: 2.0e-5  # s
+
+
+reactivity:
+  type: sine
+  rho: 0.25  # $
+  frequency: 62.8
+
+
+method: "implicit euler"
+
+
+plots:
+  show: 1  # 0=no, 1=at end, 2=immediately
+  spy: 0
+  power_reactivity: 1
