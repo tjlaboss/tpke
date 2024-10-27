@@ -29,6 +29,7 @@ def _enum(iterable: typing.Iterable, **kwargs) -> str:
 SCHEMA = f"""\
 time: include('time_type')
 data: include('data_type')
+plots: include('plot_type', required=False)
 reactivity: any(include('step_type'), include('ramp_type'), include('sine_type'))
 method: {_enum(METHODS.keys(), ignore_case=True)}
 ---
@@ -40,6 +41,11 @@ data_type:
   delay_fractions: list(num(min=0))
   decay_constants: list(num(min=0))
   Lambda: num(min=0)
+---
+plot_type:
+  show: int(min=0, max=2, required=False)
+  spy: int(min=0, max=1, required=False)
+  power_reactivity: int(min=0, max=2, required=False)
 ---
 step_type:
   type: str(equals="step", ignore_case=True)
