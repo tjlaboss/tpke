@@ -55,7 +55,7 @@ def get_arguments(args=None) -> argparse.Namespace:
 	ap = argparse.ArgumentParser(description=LOGO,
 	                             formatter_class=argparse.RawDescriptionHelpFormatter)
 	
-	ap.add_argument('-o', '--output-dir', type=str, default='',
+	ap.add_argument('-o', '--output-dir', type=str, default='.',
 	                help="Results output directory (default: same as input file).")
 	ap.add_argument('-y', '--yaml-validate', action="store_true", default=False,
 	                help="Validate the YAML input file and exit.")
