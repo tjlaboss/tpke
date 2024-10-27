@@ -3,9 +3,12 @@ Plotter
 
 Plotting thingies
 """
-import numpy as np
+from matplotlib import rcParams
 import matplotlib.pyplot as plt
 import typing
+
+# This will make the y-labels not be so stupid.
+rcParams['axes.formatter.useoffset'] = False
 
 V_float = typing.Collection[float]
 
