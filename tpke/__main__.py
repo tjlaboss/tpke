@@ -30,6 +30,8 @@ def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 	total = input_dict[K.TIME][K.TIME_TOTAL]
 	dt = input_dict[K.TIME][K.TIME_DELTA]
 	num_steps = 1 + int(np.floor(total / dt))  # Will raise total if not divisible
+	times = np.linspace(0, num_steps*dt, num_steps)
+	np.savetxt(os.path.join(output_dir, K.FNAME_TIME), times)
 	rxdict = dict(input_dict[K.REAC])
 	rxtype = rxdict.pop(K.REAC_TYPE)
 	reactivity_vals = tpke.reactivity.get_reactivity_vector(
@@ -62,7 +64,6 @@ def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 	# print(np.vstack((power_vals, concentration_vals)))
 	print("Power", power_vals) # tmp
 	prplot = plots.get(K.PLOT_PR)
-	times = np.linspace(0, num_steps*dt, num_steps)
 	if prplot == 1:
 		tpke.plotter.plot_reactivity_and_power(times, reactivity_vals, power_vals)
 		plt.savefig(os.path.join(output_dir, K.FNAME_PR))

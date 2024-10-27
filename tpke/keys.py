@@ -42,6 +42,7 @@ FNAME_PR = "power_reactivity" + EXT
 
 # Text names
 FNAME_CFG = "config.yml"
+FNAME_TIME = "times.txt"
 FNAME_RHO = "reactivities.txt"
 FNAME_P = "powers.txt"
 FNAME_C = "concentrations.txt"
