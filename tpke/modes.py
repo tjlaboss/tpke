@@ -55,4 +55,4 @@ def plot_only(output_dir: tpke.tping.PathType):
 		errstr += "\n\t".join(errs)
 		print(errs, sys.stderr)
 	plt.show()
-	exit(le)
+	return le

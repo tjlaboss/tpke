@@ -4,7 +4,7 @@ Arguments
 Deal with argument parsing
 """
 import argparse
-from tpke.actions import SchemaDumpAction
+from tpke.actions import SchemaDumpAction, PlotOnlyAction
 
 
 LOGO = r"""
@@ -37,6 +37,8 @@ def get_arguments(args=None) -> argparse.Namespace:
 	
 	ap.add_argument('-o', '--output-dir', type=str, default='.',
 	                help="Results output directory (default: active directory).")
+	ap.add_argument('-p', '--plot_folder', action=PlotOnlyAction, default=False,
+	                help="Plot results of a previous solution.")
 	ap.add_argument('-y', '--yaml-validate', action="store_true", default=False,
 	                help="Validate the YAML input file and exit.")
 	ap.add_argument('-s', '--dump-schema', action=SchemaDumpAction,
