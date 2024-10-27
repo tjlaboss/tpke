@@ -86,7 +86,7 @@ def check_input(config: typing.Mapping):
 	if config['time']['total'] < config['time']['dt']:
 		errs.append("Total time is less than timestep size.")
 	rx = config['reactivity']
-	if rx['type'] == "ramp" and np.sign(rx['rho'] != np.sign(rx['slope'])):
+	if rx['type'] == "ramp" and np.sign(rx['rho']) != np.sign(rx['slope']):
 		errs.append("Reactivity inserted and insertion ramp slope have different signs.")
 	# Might add some more checks later.
 	if errs:
