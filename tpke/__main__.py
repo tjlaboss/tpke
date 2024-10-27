@@ -27,7 +27,7 @@ def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 		**rxdict
 	)
 	np.savetxt(os.path.join(output_dir, "reactivities.txt"), reactivity_vals)
-	print(reactivity_vals)  # tmp
+	print("Reactivity:", reactivity_vals)  # tmp
 	matA, matB = method(
 		n=num_steps,
 		dt=dt,
@@ -39,17 +39,19 @@ def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 	to_show = plots.get('show', 0)
 	if plots.get('spy'):
 		tpke.plotter.plot_matrices(matA)
+		plt.savefig(os.path.join(output_dir, "spy.pdf"))
 		if to_show > 1:
 			plt.show()
 	power_vals, concentration_vals = tpke.solver.linalg(matA, matB, num_steps)
 	np.savetxt(os.path.join(output_dir, "powers.txt"), power_vals)
 	np.savetxt(os.path.join(output_dir, "concentrations.txt"), concentration_vals)
 	# print(np.vstack((power_vals, concentration_vals)))
-	print(power_vals)
+	print("Power", power_vals) # tmp
 	prplot = plots.get('power_reactivity')
 	times = np.linspace(0, num_steps*dt, num_steps)
 	if prplot == 1:
 		tpke.plotter.plot_reactivity_and_power(times, reactivity_vals, power_vals)
+		plt.savefig(os.path.join(output_dir, "power_reactivity.pdf"))
 	elif prplot == 2:
 		# Plot them separately
 		warnings.warn("Not implemented yet: separate power and reactivity plots", FutureWarning)
