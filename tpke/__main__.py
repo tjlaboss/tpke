@@ -4,6 +4,7 @@ Travis's Point Kinetics Equations
 import typing
 import tpke
 import os
+import shutil
 import numpy as np
 import warnings
 
@@ -24,6 +25,7 @@ def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 		dt=dt,
 		**rxdict
 	)
+	np.savetxt(os.path.join(output_dir, "reactivities.txt"), reactivity_vals)
 	print(reactivity_vals)  # tmp
 	matA, matB = method(
 		n=num_steps,
@@ -39,6 +41,8 @@ def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 		if to_show > 1:
 			tpke.plotter.show()
 	power_vals, concentration_vals = tpke.solver.linalg(matA, matB, num_steps)
+	np.savetxt(os.path.join(output_dir, "powers.txt"), power_vals)
+	np.savetxt(os.path.join(output_dir, "concentrations.txt"), concentration_vals)
 	# print(np.vstack((power_vals, concentration_vals)))
 	print(power_vals)
 	prplot = plots.get('power_reactivity')
@@ -67,9 +71,9 @@ def main():
 		# If not, we would have errored out above.
 		print("Input file is valid:", input_file)
 		exit(0)
-	# Todo: implement the other stuff.
-	print(input_dict)
-	solution(input_dict)
+	os.makedirs(args.output_dir, exist_ok=True)
+	shutil.copy(input_file, os.path.join(args.output_dir, "config.yml"))
+	solution(input_dict, args.output_dir)
 
 
 if __name__ == "__main__":
