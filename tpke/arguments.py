@@ -47,5 +47,9 @@ def get_arguments(args=None) -> argparse.Namespace:
 	                help="Dump the YAML schema to a file and exit.")
 	ap.add_argument("input_file", type=str,
 	                help="Path to the input YAML file.")
+	ap.add_argument('--study_timesteps', type=float, nargs="+", default=None,
+	                help="Run the same problem with a list of 'dt' values. "
+	                     "Report the difference in the final power vs. the smallest 'dt'. "
+	                     "For best results, the total time should be evenly divisible by all 'dt'.")
 	
 	return ap.parse_args(args)

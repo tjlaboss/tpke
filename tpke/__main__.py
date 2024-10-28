@@ -20,18 +20,28 @@ def main():
 	if args.yaml_validate:
 		# If not, we would have errored out above.
 		print("Input file is valid:", input_file)
-		exit(0)
+		return 0
 	print(tpke.arguments.LOGO)
-	if args.no_plot:
+	if args.no_plot or args.study_timesteps:
 		# Delete input file plotting options.
 		input_dict[K.PLOT] = {}
 	os.makedirs(args.output_dir, exist_ok=True)
 	shutil.copy(input_file, os.path.join(args.output_dir, K.FNAME_CFG))
+	if args.study_timesteps:
+		dts = args.study_timesteps
+		if len(dts) < 2:
+			raise ValueError("Timestep study requires at least 2 values.")
+		if min(dts) <= 0:
+			raise ValueError("Timestep sizes must be >0.")
+		print("Starting timestep study.")
+		return tpke.modes.study_timesteps(input_dict, args.output_dir, dts)
+	# Otherwise, run normally.
 	tick = time.time()
 	print("Solving...")
 	tpke.modes.solution(input_dict, args.output_dir)
 	tock = time.time()
 	print(f"...Completed in {tock - tick:.2f} seconds. Outputs saved to: {args.output_dir}.")
+	return 0
 
 
 if __name__ == "__main__":

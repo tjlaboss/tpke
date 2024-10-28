@@ -44,6 +44,7 @@ DATA_BIG_L = "Lambda"
 EXT = ".pdf"  # consider making this user-configurable
 FNAME_SPY = "spy" + EXT
 FNAME_PR = "power_reactivity" + EXT
+FNAME_CONVERGE = "timestep_study" + EXT
 
 # Text names
 FNAME_CFG = "config.yml"
@@ -53,3 +54,5 @@ FNAME_P = "powers.txt"
 FNAME_C = "concentrations.txt"
 FNAME_MATRIX_A = "A.txt"
 FNAME_MATRIX_B = "B.txt"
+FNAME_DT = "dt.txt"
+FNAME_REPORT = "timestep_report.txt"
