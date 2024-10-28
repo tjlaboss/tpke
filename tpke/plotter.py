@@ -121,13 +121,14 @@ def plot_convergence(dts: V_float, errors: V_float, in_percent=False):
 	# Make sure the markers are visible of the plot
 	xmin = min(dts)*0.9
 	xmax = max(dts)*1.1
-	ymin = min(min(errors)*1.1, -0.1)
-	ymax = max(max(errors)*1.1, +0.1)
+	ymin = min(min(errors)*1.1, -0.01)
+	ymax = max(max(errors)*1.1, +0.01)
 	ax.set_xlim([xmin, xmax])
 	ax.set_ylim([ymin, ymax])
 	# highlight zero
 	ax.plot([xmin, xmax], [0, 0], 'k-', lw=2)
 	ax.grid()
+	plt.tight_layout()
 
 
 def plot_matrix(matA):

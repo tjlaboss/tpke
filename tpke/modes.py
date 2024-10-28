@@ -175,14 +175,14 @@ def study_timesteps(
 			f.write(str(dt))
 		solution(cfg, out_fpath)
 		power = _load_solution(out_fpath)
-		report = f"\tP(dt={dt:.2e} s): {power:.2f}"
+		report = f"\tP(dt={dt:.2e} s): {power:.4f}"
 		# Calculate the relative error vs. the reference solution.
 		if i == 0:
 			ref = power
 			error = 0
 		else:
 			error = (power - ref)/ref
-			report += f" | Error: {error:+8.2%}"
+			report += f" | Error: {error:+8.4%}"
 		print(report)
 		errors.append(error)
 	with open(os.path.join(output_dir, K.FNAME_REPORT), 'w') as f:
