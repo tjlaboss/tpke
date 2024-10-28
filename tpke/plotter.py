@@ -22,6 +22,7 @@ def plot_reactivity_and_power(
 		times: V_float,
 		reacts: V_float,
 		powers: V_float,
+		semilog=False,
 		power_units=None,
 		title_text=""
 ):
@@ -37,6 +38,10 @@ def plot_reactivity_and_power(
 	
 	powers: collection of float
 		List of powers (power_units).
+	
+	semilog: bool, optional
+		Whether to plot power using semilogy.
+		[Default: False -> linear.]
 	
 	power_units: str, optional
 		Units to show for the y-axis for power.
@@ -56,8 +61,12 @@ def plot_reactivity_and_power(
 	
 	# Plot power
 	fig, pax = plt.subplots()
-	plines = pax.plot(times, powers, "-", color=COLOR_P, label=r"$P(t)$")
-	pax.tick_params(axis="y", labelcolor=COLOR_P)
+	if semilog:
+		plot_f = pax.semilogy
+	else:
+		plot_f = pax.plot
+	plines = plot_f(times, powers, "-", color=COLOR_P, label=r"$P(t)$")
+	pax.tick_params(axis="y", which="both", labelcolor=COLOR_P)
 	pax.set_ylabel(f"Power ({power_units})", color=COLOR_P)
 	
 	# Plot reactivity

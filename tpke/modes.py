@@ -125,7 +125,12 @@ def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 	np.savetxt(os.path.join(output_dir, K.FNAME_C), concentration_vals)
 	prplot = plots.get(K.PLOT_PR)
 	if prplot == 1:
-		tpke.plotter.plot_reactivity_and_power(times, reactivity_vals, power_vals)
+		tpke.plotter.plot_reactivity_and_power(
+			times=times,
+			reacts=reactivity_vals,
+			powers=power_vals,
+			semilog=plots.get(K.PLOT_LOG)
+		)
 		plt.savefig(os.path.join(output_dir, K.FNAME_PR))
 	elif prplot == 2:
 		# Plot them separately
