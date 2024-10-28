@@ -129,7 +129,7 @@ def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 			times=times,
 			reacts=reactivity_vals,
 			powers=power_vals,
-			semilog=plots.get(K.PLOT_LOG)
+			plot_type=plots.get(K.PLOT_LOG)
 		)
 		plt.savefig(os.path.join(output_dir, K.FNAME_PR))
 	elif prplot == 2:

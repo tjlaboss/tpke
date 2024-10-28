@@ -28,7 +28,11 @@ PLOT = "plots"
 PLOT_SHOW = "show"
 PLOT_SPY = "spy"
 PLOT_PR = "power_reactivity"
-PLOT_LOG = "semilog"
+PLOT_LOG = "plot_type"
+PLOT_LINEAR = "linear"
+PLOT_SEMLOG = "semilog"
+PLOT_LOGLOG = "loglog"
+PLOT_TYPES = (PLOT_LINEAR, PLOT_SEMLOG, PLOT_LOGLOG)
 
 # PKRE data inputs
 DATA = "data"

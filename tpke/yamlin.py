@@ -48,7 +48,7 @@ plot_type:
   {PLOT_SHOW}: int(min=0, max=2, required=False)
   {PLOT_SPY}: int(min=0, max=1, required=False)
   {PLOT_PR}: int(min=0, max=2, required=False)
-  {PLOT_LOG}: bool(required=False)
+  {PLOT_LOG}: {_enum(PLOT_TYPES, ignore_case=True, required=False)}
 ---
 step_type:
   {REAC_TYPE}: str(equals="{STEP}", ignore_case=True)

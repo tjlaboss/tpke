@@ -3,6 +3,7 @@ Plotter
 
 Plotting thingies
 """
+import tpke.keys as K
 from matplotlib import rcParams
 import matplotlib.pyplot as plt
 import typing
@@ -22,11 +23,11 @@ def plot_reactivity_and_power(
 		times: V_float,
 		reacts: V_float,
 		powers: V_float,
-		semilog=False,
+		plot_type=K.PLOT_LOG,
 		power_units=None,
 		title_text=""
 ):
-	"""Plot the reactor power and reactivity vs. time
+	f"""Plot the reactor power and reactivity vs. time
 	
 	Parameters:
 	-----------
@@ -39,9 +40,12 @@ def plot_reactivity_and_power(
 	powers: collection of float
 		List of powers (power_units).
 	
-	semilog: bool, optional
-		Whether to plot power using semilogy.
-		[Default: False -> linear.]
+	plot_type: str, optional
+		Type of plot to make for power:
+			{K.PLOT_LINEAR}: linear-linear
+			{K.PLOT_SEMLOG}: log-linear (semilog-y)
+			{K.PLOT_LOGLOG}: log-log
+		[Default: {K.PLOT_LOGLOG}.]
 	
 	power_units: str, optional
 		Units to show for the y-axis for power.
@@ -61,10 +65,12 @@ def plot_reactivity_and_power(
 	
 	# Plot power
 	fig, pax = plt.subplots()
-	if semilog:
-		plot_f = pax.semilogy
-	else:
-		plot_f = pax.plot
+	plot_functions = {
+		K.PLOT_LINEAR: pax.plot,
+		K.PLOT_SEMLOG: pax.semilogy,
+		K.PLOT_LOGLOG: pax.loglog
+	}
+	plot_f = plot_functions.get(plot_type, pax.loglog)
 	plines = plot_f(times, powers, "-", color=COLOR_P, label=r"$P(t)$")
 	pax.tick_params(axis="y", which="both", labelcolor=COLOR_P)
 	pax.set_ylabel(f"Power ({power_units})", color=COLOR_P)
