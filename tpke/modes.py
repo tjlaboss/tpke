@@ -142,3 +142,26 @@ def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 	if to_show:
 		plt.show()
 
+
+def study_timesteps(
+		input_dict: typing.Mapping,
+		output_dir: tpke.tping.PathType,
+		dts: typing.Iterable[float]
+):
+	"""Study the effect of timestep size upon final power.
+	
+	Parameters:
+	-----------
+	input_dict: dict
+		Dictionary of the the parsed input file.
+	
+	output_dir: str or PathLike
+		Output folder to write results to.
+		If it does not exist, it will be created.
+		Each result will create a subfolder in 'output_dir'.
+	
+	dts: iterable of float
+		List of timestep sizes (s).
+	"""
+	pass
+
