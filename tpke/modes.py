@@ -163,5 +163,38 @@ def study_timesteps(
 	dts: iterable of float
 		List of timestep sizes (s).
 	"""
-	pass
+	errors = []
+	ref = np.nan
+	for i, dt in enumerate(sorted(dts)):
+		cfg = dict(input_dict)
+		cfg[K.TIME][K.TIME_DELTA] = dt
+		out_fpath = os.path.join(output_dir, str(i))
+		os.makedirs(out_fpath, exist_ok=True)
+		with open(os.path.join(out_fpath, K.FNAME_DT), 'w') as f:
+			f.write(str(dt))
+		solution(cfg, out_fpath)
+		power = _load_solution(out_fpath)
+		report = f"\tP(dt={dt:.2e} s): {power:.2f}"
+		# Calculate the relative error vs. the reference solution.
+		if i == 0:
+			ref = power
+			error = 0
+		else:
+			error = (power - ref)/ref
+			report += f" | Error: {error:+8.2%}"
+		print(report)
+		errors.append(error)
+	# TODO: Plot convergence.
+	
 
+
+def _load_solution(study_dir: tpke.tping.PathType) -> float:
+	"""Load the last power from a transient."""
+	fpath = os.path.join(study_dir, K.FNAME_P)
+	try:
+		powers = np.loadtxt(fpath)
+		endpow = powers.flatten()[-1]
+		return float(endpow)
+	except Exception as e:
+		warnings.warn(f"Failed to load {fpath}: {e}", Warning)
+	return np.nan

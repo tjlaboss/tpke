@@ -28,7 +28,7 @@ def main():
 	os.makedirs(args.output_dir, exist_ok=True)
 	shutil.copy(input_file, os.path.join(args.output_dir, K.FNAME_CFG))
 	if args.study_timesteps:
-		dts = sorted(args.study_timesteps)
+		dts = args.study_timesteps
 		if len(dts) < 2:
 			raise ValueError("Timestep study requires at least 2 values.")
 		if min(dts) <= 0:
