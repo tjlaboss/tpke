@@ -163,9 +163,10 @@ def study_timesteps(
 	dts: iterable of float
 		List of timestep sizes (s).
 	"""
+	dts = sorted(dts)
 	errors = []
 	ref = np.nan
-	for i, dt in enumerate(sorted(dts)):
+	for i, dt in enumerate(dts):
 		cfg = dict(input_dict)
 		cfg[K.TIME][K.TIME_DELTA] = dt
 		out_fpath = os.path.join(output_dir, str(i))
@@ -184,8 +185,15 @@ def study_timesteps(
 			report += f" | Error: {error:+8.2%}"
 		print(report)
 		errors.append(error)
-	# TODO: Plot convergence.
-	
+	with open(os.path.join(output_dir, K.FNAME_REPORT), 'w') as f:
+		f.write(report)
+	plot_dts = np.array(dts)[1:]
+	plot_err = np.array(errors)[1:]*100
+	tpke.plotter.plot_convergence(plot_dts, plot_err, in_percent=True)
+	fpath_plot = os.path.join(output_dir, K.FNAME_CONVERGE)
+	plt.savefig(fpath_plot)
+	print("Results plotted to:", fpath_plot)
+	plt.show()
 
 
 def _load_solution(study_dir: tpke.tping.PathType) -> float:

@@ -92,6 +92,44 @@ def plot_reactivity_and_power(
 	plt.tight_layout()
 
 
+def plot_convergence(dts: V_float, errors: V_float, in_percent=False):
+	"""Plot the convergence of a solution as a function of timestep size
+	
+	Parameters:
+	-----------
+	dts: collection of float
+		List of 'dt' values.
+	
+	errors: collection of float
+		List of the relative errors for each 'dt'.
+	
+	in_percent: bool, optional
+		Whether the provided errors are in percent.
+		[Default: False]
+	"""
+	lendts = len(dts)
+	lenerr = len(errors)
+	assert lendts == lenerr, \
+		f"The number of dt ({lendts}) and errors ({lenerr}) must be equal."
+	ax = plt.figure().add_subplot()
+	ax.plot(dts, errors, 'rx')
+	ax.set_xlabel(r"$\Delta t$ (s)")
+	if in_percent:
+		ax.set_ylabel(r"% Error in Power")
+	else:
+		ax.set_ylabel(r"Relative Error in Power")
+	# Make sure the markers are visible of the plot
+	xmin = min(dts)*0.9
+	xmax = max(dts)*1.1
+	ymin = min(min(errors)*1.1, -0.1)
+	ymax = max(max(errors)*1.1, +0.1)
+	ax.set_xlim([xmin, xmax])
+	ax.set_ylim([ymin, ymax])
+	# highlight zero
+	ax.plot([xmin, xmax], [0, 0], 'k-', lw=2)
+	ax.grid()
+
+
 def plot_matrix(matA):
 	"""Spy plot of the generated matrix
 	
