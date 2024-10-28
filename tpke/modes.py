@@ -92,7 +92,7 @@ def solution(input_dict: typing.Mapping, output_dir: tpke.tping.PathType):
 	method = tpke.matrices.METHODS[input_dict[K.METH]]
 	total = input_dict[K.TIME][K.TIME_TOTAL]
 	dt = input_dict[K.TIME][K.TIME_DELTA]
-	num_steps = 1 + int(np.floor(total/dt))  # Will raise total if not divisible
+	num_steps = int(np.ceil(total/dt))  # Will raise total if not divisible
 	times = np.linspace(0, num_steps*dt, num_steps)
 	np.savetxt(os.path.join(output_dir, K.FNAME_TIME), times)
 	rxdict = dict(input_dict[K.REAC])
